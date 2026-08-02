@@ -2702,6 +2702,16 @@
     }).sort((a, b) => a[1] - b[1])[0][0];
   }
 
+  const offerPresentedMap = {
+    "Não quero investir": "E-book gratuito",
+    "Até R$500": "Curso R$397",
+    "Mais de R$1.000": "Curso R$397 + recomendação Plano R$1.997"
+  };
+
+  function getOfferPresented() {
+    return offerPresentedMap[state.budget] || "";
+  }
+
   function buildPayload(score, diagnosis, weakPillar) {
     return {
       source: "quiz_salva_boni",
@@ -2716,12 +2726,15 @@
       budget: state.answerLabels.budget,
       score,
       result_level: diagnosis.level,
-      weak_pillar: pillarCopy[weakPillar].title
+      weak_pillar: pillarCopy[weakPillar].title,
+      event_type: "lead_completed",
+      offer_presented: getOfferPresented(),
+      sales_page_click: "",
+      sales_page_url: ""
     };
   }
 
-  async function sendLead(payload) {
-    localStorage.setItem("salva_boni_quiz_last_result", JSON.stringify(payload));
+  async function postToWebhook(payload) {
     if (!QUIZ_CONFIG.webhookUrl) return;
     try {
       await fetch(QUIZ_CONFIG.webhookUrl, {
@@ -2731,8 +2744,35 @@
         body: JSON.stringify(payload)
       });
     } catch (error) {
-      console.warn("Não foi possível enviar o lead ao webhook.", error);
+      console.warn("Não foi possível enviar os dados ao webhook.", error);
     }
+  }
+
+  async function sendLead(payload) {
+    localStorage.setItem("salva_boni_quiz_last_result", JSON.stringify(payload));
+    await postToWebhook(payload);
+  }
+
+  function sendSalesPageClick(url) {
+    postToWebhook({
+      event_type: "sales_page_click",
+      created_at: new Date().toISOString(),
+      name: state.name,
+      whatsapp: normalizePhone(state.whatsapp),
+      email: state.email,
+      budget: state.answerLabels.budget,
+      offer_presented: getOfferPresented(),
+      sales_page_click: "Sim",
+      sales_page_url: url,
+      source: "diagnostico_financeiro_salva_boni"
+    });
+  }
+
+  function wireOfferLink(link) {
+    link.addEventListener("click", () => {
+      offerClicked = true;
+      sendSalesPageClick(link.href);
+    });
   }
 
   function hotmartTrustRow() {
@@ -2864,12 +2904,12 @@
       retentionShown = true;
       area.innerHTML = renderStartHereEbook();
       const ebookLink = area.querySelector("[data-resource='ebook']");
-      if (ebookLink) ebookLink.addEventListener("click", () => { offerClicked = true; });
+      if (ebookLink) wireOfferLink(ebookLink);
       return;
     }
 
     area.innerHTML = state.budget === "Mais de R$1.000" ? renderDualOffer() : renderStandardOffer();
-    area.querySelectorAll(".offer-link").forEach(link => link.addEventListener("click", () => { offerClicked = true; }));
+    area.querySelectorAll(".offer-link").forEach(wireOfferLink);
     startMainCountdown();
   }
 
@@ -2910,7 +2950,7 @@
       pitch.textContent = "Você pode continuar adiando ou pode usar um método criado especificamente para as decisões financeiras da carreira médica. A condição de R$ 397 está disponível nesta página.";
       container.innerHTML = `<a class="offer-cta offer-link" href="${QUIZ_CONFIG.essentialUrl}" target="_blank" rel="noopener">Aproveitar Oferta de R$ 397</a>`;
     }
-    container.querySelectorAll(".offer-link").forEach(link => link.addEventListener("click", () => { offerClicked = true; }));
+    container.querySelectorAll(".offer-link").forEach(wireOfferLink);
   }
 
   function showRetentionModal(reason, force = false) {

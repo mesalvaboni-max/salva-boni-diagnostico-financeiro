@@ -2882,6 +2882,22 @@
         <p>O conteúdo é o mesmo ponto de partida. A diferença está no nível de direção necessário para implementar as decisões na sua realidade.</p>
       </div>
       <div class="dual-offers">
+        <article class="plan-card recommended">
+          <div class="recommend-badge"><span>✓</span> Recomendado para o seu perfil</div>
+          <h3>Plano Individual Boni</h3>
+          <p>Inclui todo o conteúdo do Essencial Finanças para Médicos — 8 módulos e 13 horas de conteúdo — além do acompanhamento individual com Vitor Bonilha.</p>
+          <div class="pricing-block">
+            <span class="old-price">De R$ 4.997,00</span>
+            <strong class="price-now">R$ 1.997,00</strong>
+            <span class="installments">12x de R$ 166,42 sem juros</span>
+          </div>
+          <ul class="offer-benefits">
+            <li>4 encontros individuais de 1 hora</li>
+            <li>Acesso por 12 meses</li>
+          </ul>
+          ${hotmartTrustRow()}
+          <a class="offer-cta offer-link" href="${QUIZ_CONFIG.accompanimentUrl}" target="_blank" rel="noopener" data-offer="individual">Escolher Acompanhamento</a>
+        </article>
         <article class="plan-card">
           <span class="plan-tag">Autonomia</span>
           <h3>Plano Essencial Boni</h3>
@@ -2898,23 +2914,6 @@
           </ul>
           ${hotmartTrustRow()}
           <a class="offer-cta offer-link" href="${QUIZ_CONFIG.essentialUrl}" target="_blank" rel="noopener" data-offer="essential">Escolher Plano Essencial</a>
-        </article>
-        <article class="plan-card recommended">
-          <div class="recommend-badge"><span>✓</span> Recomendado para o seu perfil</div>
-          <h3>Plano Individual Boni</h3>
-          <p>Para aplicar o método com direção individual e acelerar decisões financeiras importantes.</p>
-          <div class="pricing-block">
-            <span class="old-price">De R$ 4.997,00</span>
-            <strong class="price-now">R$ 1.997,00</strong>
-            <span class="installments">12x de R$ 166,42 sem juros</span>
-          </div>
-          <ul class="offer-benefits">
-            <li>Todo o conteúdo do Plano Essencial</li>
-            <li>4 encontros individuais de 1 hora</li>
-            <li>Acesso por 12 meses</li>
-          </ul>
-          ${hotmartTrustRow()}
-          <a class="offer-cta offer-link" href="${QUIZ_CONFIG.accompanimentUrl}" target="_blank" rel="noopener" data-offer="individual">Escolher Acompanhamento</a>
         </article>
       </div>
       <div class="consultive-timer">Recomendação reservada nesta sessão: <strong id="mainCountdown">01:00</strong></div>`;
@@ -2974,8 +2973,8 @@
     if (premium) {
       pitch.textContent = "Você já sinalizou capacidade para investir com mais profundidade. Escolha autonomia por R$ 397 ou implemente com acompanhamento individual por R$ 1.997.";
       container.innerHTML = `
-        <a class="offer-cta offer-link" href="${QUIZ_CONFIG.essentialUrl}" target="_blank" rel="noopener">Essencial · R$ 397</a>
-        <a class="offer-cta offer-link" href="${QUIZ_CONFIG.accompanimentUrl}" target="_blank" rel="noopener">Individual · R$ 1.997</a>`;
+        <a class="offer-cta offer-link" href="${QUIZ_CONFIG.accompanimentUrl}" target="_blank" rel="noopener">Individual · R$ 1.997</a>
+        <a class="offer-cta offer-link" href="${QUIZ_CONFIG.essentialUrl}" target="_blank" rel="noopener">Essencial · R$ 397</a>`;
     } else {
       pitch.textContent = "Você pode continuar adiando ou pode usar um método criado especificamente para as decisões financeiras da carreira médica. A condição de R$ 397 está disponível nesta página.";
       container.innerHTML = `<a class="offer-cta offer-link" href="${QUIZ_CONFIG.essentialUrl}" target="_blank" rel="noopener">Aproveitar Oferta de R$ 397</a>`;

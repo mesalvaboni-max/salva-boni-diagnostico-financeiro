@@ -1712,6 +1712,26 @@
       font-size: .76rem;
     }
 
+    .opportunity-callout {
+      margin-top: 22px;
+      padding-top: 22px;
+      border-top: 1px solid rgba(10,27,50,.12);
+      text-align: center;
+    }
+
+    .opportunity-callout h3 {
+      margin: 0 0 8px;
+      color: var(--navy-900);
+      font-size: 1.25rem;
+      line-height: 1.2;
+    }
+
+    .opportunity-callout p {
+      margin: 0 0 16px;
+      color: #536071;
+      line-height: 1.55;
+    }
+
     .restart-row { margin-top: 18px; text-align: center; }
 
     /* RETENTION / EXIT INTENT */
@@ -2278,7 +2298,7 @@
 
           <div id="offerArea" class="offer-area"></div>
 
-          <section class="result-video-section" aria-labelledby="resultVideoTitle">
+          <section class="result-video-section" id="resultVideoSection" aria-labelledby="resultVideoTitle">
             <div class="result-video-copy">
               <div class="result-video-eyebrow">Conteúdo recomendado</div>
               <h3 id="resultVideoTitle">Antes de concluir, assista a este vídeo</h3>
@@ -2805,6 +2825,11 @@
             Acessar e-book gratuito →
           </a>
           <p class="ebook-note">Conteúdo gratuito para você começar com clareza e avançar no seu próprio ritmo.</p>
+          <div class="opportunity-callout">
+            <h3>Ficou interessado(a) em avançar?</h3>
+            <p>Existe uma oportunidade exclusiva para médicos que concluíram este diagnóstico.</p>
+            <a class="offer-cta offer-link" href="https://me.salvaboni.com.br/" target="_blank" rel="noopener" data-resource="opportunity">Conhecer esta oportunidade</a>
+          </div>
         </div>
       </section>`;
   }
@@ -2897,17 +2922,22 @@
 
   function renderOffer() {
     const area = document.getElementById("offerArea");
+    const videoSection = document.getElementById("resultVideoSection");
 
     if (state.budget === "Não quero investir") {
+      if (videoSection) videoSection.style.display = "none";
       clearInterval(mainTimerId);
       mainDeadline = null;
       retentionShown = true;
       area.innerHTML = renderStartHereEbook();
       const ebookLink = area.querySelector("[data-resource='ebook']");
       if (ebookLink) wireOfferLink(ebookLink);
+      const opportunityLink = area.querySelector("[data-resource='opportunity']");
+      if (opportunityLink) wireOfferLink(opportunityLink);
       return;
     }
 
+    if (videoSection) videoSection.style.display = "";
     area.innerHTML = state.budget === "Mais de R$1.000" ? renderDualOffer() : renderStandardOffer();
     area.querySelectorAll(".offer-link").forEach(wireOfferLink);
     startMainCountdown();

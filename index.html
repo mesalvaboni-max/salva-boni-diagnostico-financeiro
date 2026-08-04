@@ -333,7 +333,7 @@
       isolation: isolate;
     }
 
-    .hero-media img {
+    .hero-media-fallback, .hero-media-video {
       position: absolute;
       inset: -2% -7% -3% -9%;
       width: 116%;
@@ -974,7 +974,7 @@
 
 
     @media (max-width: 900px) {
-      .hero-media img {
+      .hero-media-fallback, .hero-media-video {
         inset: 0 -20% -2% -8%;
         width: 128%;
         height: 104%;
@@ -997,7 +997,7 @@
     }
 
     @media (max-width: 520px) {
-.hero-media img {
+.hero-media-fallback, .hero-media-video {
         inset: 4% -35% -2% -18%;
         width: 145%;
         height: 100%;
@@ -1025,14 +1025,14 @@
         linear-gradient(145deg, #0b203a 0%, var(--navy-950) 72%);
     }
 
-    #welcome .hero-media img {
+    #welcome .hero-media-fallback, #welcome .hero-media-video {
       inset: 7% 2% 5% 2%;
       width: 96%;
       height: 88%;
       object-fit: contain;
       object-position: center;
       opacity: .94;
-      filter: saturate(.94) contrast(1.06) brightness(.78);
+      filter: saturate(.94) contrast(1.06) brightness(.78) blur(2.5px);
       transform: none;
       mix-blend-mode: multiply;
       -webkit-mask-image: radial-gradient(ellipse 92% 88% at 56% 48%, #000 48%, rgba(0,0,0,.92) 68%, transparent 100%);
@@ -1041,8 +1041,9 @@
 
     #welcome .hero-media::before {
       background:
-        linear-gradient(90deg, var(--navy-950) 0%, rgba(6,19,38,.70) 16%, rgba(6,19,38,.12) 52%, transparent 76%),
-        linear-gradient(0deg, var(--navy-950) 0%, rgba(6,19,38,.46) 13%, transparent 38%);
+        linear-gradient(90deg, var(--navy-950) 0%, rgba(6,19,38,.78) 16%, rgba(6,19,38,.5) 52%, rgba(6,19,38,.4) 76%),
+        linear-gradient(0deg, var(--navy-950) 0%, rgba(6,19,38,.55) 13%, rgba(6,19,38,.32) 38%),
+        rgba(6,19,38,.5);
     }
 
     #welcome .hero-highlight-item {
@@ -1056,21 +1057,21 @@
     }
 
     @media (max-width: 900px) {
-      #welcome .hero-media img {
+      #welcome .hero-media-fallback, #welcome .hero-media-video {
         inset: 5% -8% 26% 24%;
         width: 92%;
         height: 67%;
         object-fit: contain;
         object-position: center top;
         opacity: .68;
-        filter: saturate(.9) contrast(1.04) brightness(.67);
+        filter: saturate(.9) contrast(1.04) brightness(.67) blur(2.5px);
         -webkit-mask-image: linear-gradient(180deg, rgba(0,0,0,.8) 0%, #000 42%, transparent 100%);
         mask-image: linear-gradient(180deg, rgba(0,0,0,.8) 0%, #000 42%, transparent 100%);
       }
     }
 
     @media (max-width: 520px) {
-      #welcome .hero-media img {
+      #welcome .hero-media-fallback, #welcome .hero-media-video {
         inset: 4% -18% 34% 28%;
         width: 100%;
         height: 58%;
@@ -1465,64 +1466,6 @@
 
     .consultive-timer strong { color: var(--navy-800); font-variant-numeric: tabular-nums; }
 
-
-    .result-video-section {
-      margin-top: 24px;
-      padding: 22px;
-      border-radius: 22px;
-      border: 1px solid rgba(10,27,50,.12);
-      background:
-        radial-gradient(circle at 100% 0%, rgba(225,179,58,.12), transparent 17rem),
-        #ffffff;
-      box-shadow: 0 18px 48px rgba(10,27,50,.09);
-    }
-
-    .result-video-copy {
-      margin-bottom: 16px;
-    }
-
-    .result-video-eyebrow {
-      color: var(--gold);
-      font-size: .72rem;
-      font-weight: 900;
-      letter-spacing: .1em;
-      text-transform: uppercase;
-      margin-bottom: 7px;
-    }
-
-    .result-video-copy h3 {
-      margin: 0 0 7px;
-      color: var(--navy-900);
-      font-size: clamp(1.35rem, 2.4vw, 2rem);
-      line-height: 1.14;
-      letter-spacing: -.035em;
-    }
-
-    .result-video-copy p {
-      margin: 0;
-      color: #5d6877;
-      line-height: 1.55;
-      font-size: .92rem;
-    }
-
-    .result-video-frame {
-      position: relative;
-      width: 100%;
-      aspect-ratio: 16 / 9;
-      overflow: hidden;
-      border-radius: 17px;
-      background: #07172c;
-      box-shadow: 0 18px 42px rgba(7,23,44,.18);
-    }
-
-    .result-video-frame iframe {
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      border: 0;
-      display: block;
-    }
 
     .result-proof-row {
       margin-top: 20px;
@@ -2118,7 +2061,11 @@
           <p class="hero-authority">Diagnóstico desenvolvido por <strong>Vitor Bonilha</strong> | Planejador Financeiro - <strong>CFP®</strong> (Certified Financial Planner).</p>
         </div>
         <div class="hero-media" aria-hidden="true">
-          <img src="https://img.magnific.com/psd-gratuitas/uniformes-medicos-azuis-com-estetoscopio-para-profissionais-de-saude_632498-25302.jpg" alt="Uniformes médicos azuis com estetoscópio" loading="eager" fetchpriority="high" referrerpolicy="no-referrer" />
+          <img class="hero-media-fallback" src="assets/hero-bg-poster.jpg" alt="" loading="eager" fetchpriority="high" />
+          <video class="hero-media-video" autoplay muted loop playsinline preload="metadata" poster="assets/hero-bg-poster.jpg">
+            <source src="assets/hero-bg.webm" type="video/webm">
+            <source src="assets/hero-bg.mp4" type="video/mp4">
+          </video>
         </div>
       </div>
 
@@ -2297,24 +2244,6 @@
           <ul class="bullet-list" id="nextSteps"></ul>
 
           <div id="offerArea" class="offer-area"></div>
-
-          <section class="result-video-section" id="resultVideoSection" aria-labelledby="resultVideoTitle">
-            <div class="result-video-copy">
-              <div class="result-video-eyebrow">Conteúdo recomendado</div>
-              <h3 id="resultVideoTitle">Antes de concluir, assista a este vídeo</h3>
-              <p>Uma orientação complementar para ajudar você a interpretar o diagnóstico e avançar com mais clareza.</p>
-            </div>
-            <div class="result-video-frame">
-              <iframe
-                src="https://www.youtube-nocookie.com/embed/iu0337nflA0?rel=0"
-                title="Vídeo complementar do diagnóstico Salva Boni"
-                loading="lazy"
-                referrerpolicy="strict-origin-when-cross-origin"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                allowfullscreen>
-              </iframe>
-            </div>
-          </section>
 
           <div class="result-proof-row">
             <a class="testimonial-proof-link" href="https://www.instagram.com/p/DaeIRJHjetm/" target="_blank" rel="noopener">
@@ -2921,10 +2850,8 @@
 
   function renderOffer() {
     const area = document.getElementById("offerArea");
-    const videoSection = document.getElementById("resultVideoSection");
 
     if (state.budget === "Não quero investir") {
-      if (videoSection) videoSection.style.display = "none";
       clearInterval(mainTimerId);
       mainDeadline = null;
       retentionShown = true;
@@ -2936,7 +2863,6 @@
       return;
     }
 
-    if (videoSection) videoSection.style.display = "";
     area.innerHTML = state.budget === "Mais de R$1.000" ? renderDualOffer() : renderStandardOffer();
     area.querySelectorAll(".offer-link").forEach(wireOfferLink);
     startMainCountdown();
